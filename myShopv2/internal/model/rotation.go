@@ -8,13 +8,15 @@ type RotationCreateUpdateBase struct {
 
 }
 
-// RotationCreateInput 创建内容
+//RotationCreateInput 创建内容
+
 type RotationCreateInput struct {
 	RotationCreateUpdateBase
-	UserId uint
+	//UserId uint
 }
 
 // RotationCreateOutput 创建内容返回结果
+
 type RotationCreateOutput struct {
 	RotationId int `json:"rotation_id"`
 }

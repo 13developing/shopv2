@@ -2,16 +2,16 @@ package controller
 
 import (
 	"context"
-	"myShopv2/api/backend"
 
+	"myShopv2/api/backend"
 	"myShopv2/internal/model"
 	"myShopv2/internal/service"
 )
 
+type cRotation struct{}
+
 // Rotation 内容管理
 var Rotation = cRotation{}
-
-type cRotation struct{}
 
 func (a *cRotation) Create(ctx context.Context, req *backend.RotationReq) (res *backend.RotationRes, err error) {
 	out, err := service.Rotation().Create(ctx, &model.RotationCreateInput{
@@ -25,4 +25,8 @@ func (a *cRotation) Create(ctx context.Context, req *backend.RotationReq) (res *
 		return nil, err
 	}
 	return &backend.RotationRes{RotationId: out.RotationId}, nil
+}
+func (a *cRotation) Delete(ctx context.Context, req *backend.RotationDeleteReq) (res *backend.RotationDeleteRes, err error) {
+	err = service.Rotation().Delete(ctx, req.Id)
+	return
 }

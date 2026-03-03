@@ -19,7 +19,6 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
-					//hello.NewV1(),
 					controller.Rotation,
 				)
 			})
