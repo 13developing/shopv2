@@ -14,7 +14,7 @@ var Rotation = cRotation{}
 type cRotation struct{}
 
 func (a *cRotation) Create(ctx context.Context, req *backend.RotationReq) (res *backend.RotationRes, err error) {
-	out, err := service.Rotation().Create(ctx, model.RotationCreateInput{
+	out, err := service.Rotation().Create(ctx, &model.RotationCreateInput{
 		RotationCreateUpdateBase: model.RotationCreateUpdateBase{
 			PicUrl: req.PicUrl,
 			Link:   req.Link,

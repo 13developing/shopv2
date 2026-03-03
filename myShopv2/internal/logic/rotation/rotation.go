@@ -21,7 +21,7 @@ func New() *sRotation {
 }
 
 // Create 创建内容
-func (s *sRotation) Create(ctx context.Context, in model.RotationCreateInput) (out model.RotationCreateOutput, err error) {
+func (s *sRotation) Create(ctx context.Context, in *model.RotationCreateInput) (out model.RotationCreateOutput, err error) {
 
 	// 不允许HTML代码
 	if err = ghtml.SpecialCharsMapOrStruct(in); err != nil {
