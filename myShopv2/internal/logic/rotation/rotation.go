@@ -3,9 +3,8 @@ package rotation
 import (
 	"context"
 	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/frame/g"
-
 	"github.com/gogf/gf/v2/encoding/ghtml"
+	"github.com/gogf/gf/v2/frame/g"
 	"myShopv2/internal/service"
 
 	"myShopv2/internal/dao"
@@ -38,11 +37,33 @@ func (s *sRotation) Create(ctx context.Context, in *model.RotationCreateInput) (
 
 // Delete 删除
 func (s *sRotation) Delete(ctx context.Context, id uint) error {
+	//return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+	//	// 删除内容
+	//	_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
+	//		dao.RotationInfo.Columns().Id: id,
+	//	}).Delete() //加一个.UNscope()是软删除
+	//	return err
+	//})
+
+	m := dao.RotationInfo.Ctx(ctx)
+	cond := g.Map{dao.RotationInfo.Columns().Id: id}
+	_, err := m.Where(cond).Delete()
+	return err
+}
+
+// Update 修改
+func (s *sRotation) Update(ctx context.Context, in model.RotationUpdateInput) error {
 	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
-		// 删除内容
-		_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
-			dao.RotationInfo.Columns().Id: id,
-		}).Delete() //加一个.UNscope()是软删除
+		// 不允许HTML代码
+		if err := ghtml.SpecialCharsMapOrStruct(in); err != nil {
+			return err
+		}
+		_, err := dao.RotationInfo.
+			Ctx(ctx).
+			Data(in).
+			FieldsEx(dao.RotationInfo.Columns().Id).
+			Where(dao.RotationInfo.Columns().Id, in.Id).
+			Update()
 		return err
 	})
 }
