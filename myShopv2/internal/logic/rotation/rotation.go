@@ -38,11 +38,11 @@ func (s *sRotation) Create(ctx context.Context, in *model.RotationCreateInput) (
 
 // Delete 删除
 func (s *sRotation) Delete(ctx context.Context, id uint) error {
-	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		// 删除内容
 		_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
 			dao.RotationInfo.Columns().Id: id,
-		}).Unscoped().Delete()
+		}).Delete() //加一个.UNscope()是软删除
 		return err
 	})
 }
